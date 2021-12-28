@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load embed_video_tags %}
+{% block mdcss %}
+  <link rel="stylesheet" href="{% static 'm-detail.css'%}">
+{% endblock mdcss %}
+{% block content %}
+  <div class="bg-dark border-bottom text-white featured-movie" style="background-color:#242333 !important; width:100%; height: 400px;">
+    <div class="container pt-3 pb-3">
+      <div class="row row-sm">
+        <div class="d-none d-sm-block col-2">
+          <a href="" title="{{film.title}}">
+            <img alt="{{film.title}}" src="{{film.poster.url}}" style="width:170px; height:250px; padding-top:12px; box-shadow: -4px 4px 5px 0 #000;">
+          </a>
+        </div>
+
+        <div class="col-12 col-sm-10">
+          <div class="mb-3 text-sm-left">
+            <h1 class="mb-0 text-truncate">
+              <a href="{{film.title}}" title="{{film.title}}", style="color: #ffffff; text-decoration:none ">
+                {{film.title}}
+              </a>
+            </h1>
+            <p class="mb-0 text-muted text-truncate">
+              {{film.gernes}}
+            </p>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-lg-7">
+              <p class="mb-3 text-justify" style="text-align: justify!important">{{film.storyline}}</p>
+              <div class="row mb-3">
+                <div class="col text-center text-sm-left">
+                  <strong>
+                    <i class="fe fe-calendar"></i>
+                    <span class="d-none d-sm-inline-block">Khởi chiếu</span>
+                  </strong><br>
+                  <span>{{film.release_date}}</span>
+                </div>
+                <div class="col text-center text-sm-left">
+                  <strong>
+                    <i class="fe fe-clock"></i>
+                    <span class="d-none d-sm-inline-block">Thời lượng</span>
+                  </strong><br>
+                  <span>{{film.runtime}} phút</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-5">
+              <p class="mb-2"  >
+                <strong > Diễn viên</strong><br>
+                <span style="color: #f33636;">{{film.stars}}</span>
+              </p>
+              <p class="mb-2">
+                <strong> Đạo diễn</strong><br>
+                <span style="color: #f33636;">{{film.creators}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<br>
+  <div class="row col-md-8">
+    {% if all_shows %}
+      <p style="padding-left:125px;"><b>Lịch chiếu</b></p>
+      <ul style="padding-left:150px;">
+        {% for showtime in all_shows %}
+          <li>{{ showtime.time|date:"H:i:s" }}
+             ngày {{ showtime.time|date:"d-m-Y" }}
+             tại phòng chiếu {{ showtime.auditorium }}
+             (giá: {{ showtime.price|intcomma }} VNĐ)
+            {% if showtime.id in bookable_shows %}
+             | <a href="{% url 'book' showtime.id %}">Đặt vé</a></li>
+            {% endif %}
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p style="padding-left:125px;"><b>Chưa có lịch chiếu!</b></p>
+    {% endif %}
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="js-video youtube widescreen mb-4" style="padding-left:150px;">{% video film.trailer '750x500' %}</div>
+
+    </div>
+  </div>
+{% endblock content %}

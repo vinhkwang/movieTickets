@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="main-content">
+    <div class="bg-dark tix-bg">
+      <div class="container pt-4 pb-4">
+        <div class="text-center">
+          <h1 class="mb-3 text-white">Phim đang chiếu</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-4" style="padding-left: 120px; padding-right: 120px;">
+    {% for film in films %}
+      <!-- Movies box -->
+      <div class="col-md-3">
+        <div class="card mb-3 shadow">
+          <img src="{{film.poster.url}}" class="card-img-top" alt="{{film.title}}" style="height:350px;">
+          <div class="card-body" style="height: 100px;">
+            <h5 class="card-title"><a href="{% url 'detail' film.id %}" style="text-decoration: none;" >{{film.title}}</a></h5>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock content %}

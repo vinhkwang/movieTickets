@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+{% load embed_video_tags %}
+{% block mdcss %}
+  <link rel="stylesheet" href="{% static 'm-detail.css'%}">
+{% endblock mdcss %}
+{% block content %}
+  <div class="bg-dark border-bottom text-white featured-movie" style="background-color:#242333 !important; width:100%; height: 400px;">
+    <div class="container pt-3 pb-3">
+      <div class="row row-sm">
+        <div class="d-none d-sm-block col-2">
+          <a href="" title="{{film.title}}">
+            <img alt="{{film.title}}" src="{{film.poster.url}}" style="width:170px; height:250px; padding-top:12px; box-shadow: -4px 4px 5px 0 #000;">
+          </a>
+        </div>
+
+        <div class="col-12 col-sm-10">
+          <div class="mb-3 text-sm-left">
+            <h1 class="mb-0 text-truncate">
+              <a href="{{film.title}}" title="{{film.title}}" style="color: #ffffff; text-decoration:none ">
+                {{film.title}}
+              </a>
+            </h1>
+            <p class="mb-0 text-muted text-truncate">
+              {{film.gernes}}
+            </p>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-lg-7">
+              <p class="mb-3 text-justify" style="text-align: justify!important">{{film.storyline}}</p>
+              <div class="row mb-3">
+                <div class="col text-center text-sm-left">
+                  <strong>
+                    <i class="fe fe-calendar"></i>
+                    <span class="d-none d-sm-inline-block">Khởi chiếu</span>
+                  </strong><br>
+                  <span>{{film.release_date}}</span>
+                </div>
+                <div class="col text-center text-sm-left">
+                  <strong>
+                    <i class="fe fe-clock"></i>
+                    <span class="d-none d-sm-inline-block">Thời lượng</span>
+                  </strong><br>
+                  <span>{{film.runtime}} phút</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-5">
+              <p class="mb-2"  >
+                <strong>Diễn viên</strong><br>
+                <span style="color: #f33636;">{{film.stars}}</span>
+              </p>
+              <p class="mb-2">
+                <strong>Đạo diễn</strong><br>
+                <span style="color: #f33636;">{{film.creators}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+
+  <div class="col-md-8 row">
+    {% if available_seats %}
+    <form action="{% url 'book' showtime.id %}" method="post" >
+      {% csrf_token %}
+      <p style="padding-left:125px;">Vui lòng chọn chỗ ngồi:</p>
+        <ul style="padding-left:150px;">
+          {% for seat in available_seats %}
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="{{ seat.auditorium.code }}.{{ seat.id }}" value="{{ seat.id }}" name="seat_id">
+              <label class="form-check-label" for="{{ seat.auditorium.code }}.{{ seat.id }}">
+                "{{ seat.code }}"
+              </label>
+            </div>
+          {% endfor %}
+        </ul>
+        <button type="submit" class="btn btn-primary" style="margin-left:125px;" >Đặt vé</button>
+    </form>
+    {% else %}
+      <p>Xin lỗi, hiện tại suất chiếu này đã hết chỗ ngồi. Bạn vui lòng tham khảo các suất chiếu khác!</p>
+    {% endif %}
+  </div>
+<br>
+{% endblock content %}
