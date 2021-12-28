@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+        {% block content %}
+<body class="language-vi">
+    <div id="app">
+        <div class="main-content">
+            <div class="bg-dark tix-bg">
+                <div class="container pt-4 pb-4">
+                    <div class="text-center">
+                        <h1 class="mb-3 text-white">
+                            {{ new.title }}
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="article" class="container mt-3">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card card-article card-infinite mb-3">
+                        <div class="card-header bg-light">
+
+                            <h3>
+                                {{ new.title }}
+                            </h3>
+                            <a href="{{film.title}}">
+                                <img src="{{new.poster.url}}" alt="{{new.title}}" class="rounded img-fluid"
+                                     style="height:500px;">
+                            </a>
+                            <div>
+                                {{ new.body}}
+                            </div>
+
+
+                        </div>
+                        <div class="container">
+                            <div class="col-12 col-sm-5 text-center text-sm-left">
+                                <div class="small text-muted">
+                                    Edit By
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                	    <div class="card">
+        <div class="card-body">
+                    <div class="row">
+                    	{% for new in news %}
+                        <div class="">
+                            <a href="{% url 'news:detail' new_id=new.id %}">
+                                <img src="{{new.poster.url}}" alt="{{new.title}}" class="rounded img-fluid"
+                                     style="height:280px;">
+                            </a>
+                        </div>
+                        <div class="">
+                            <h1 style="text-align: center;"></h1>
+                            <h3>
+                                {{ new.title }}
+                            </h3>
+                            <div style="width: 280">
+                                <p>
+                                    {{ new.body | truncatechars:150 }}
+                                </p>
+                                <p>----------------------------------</p>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+        {% endblock content %}
+
+

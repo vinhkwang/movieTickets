@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+        {% block content %}
+<div class="card card-sm mb-3 card-sponsored sponsored-movie-tracking">
+    <div class="new-title" style="text-align: center;">
+        <h2>Movie News</h2>
+    </div>
+    <span class="sprite featured"></span>
+    {% for new in news %}
+    <div class="card">
+        <div class="card-body">
+            <div class="row" style="padding-left:300px; padding-right: 300px">
+                <div class="col col-sm-">
+                    <a  href="{% url 'news:detail' new_id=new.id %}">
+                        <img src="{{new.poster.url}}" alt="{{new.title}}" class="rounded img-fluid"
+                             style="height:200px; width:350px;">
+                    </a>
+                </div>
+                <div class="col ml-n2">
+
+                    <h1 style="text-align: center;"></h1>
+                    <h3>
+                        {{ new.title }}
+                    </h3>
+                    <div style="width: 900px">
+                        <p>
+                            {{ new.body | truncatechars:450 }}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" style="padding-left:300px; padding-right: 500px">
+                <div style="text-align: right;">
+                    <a href="{% url 'news:detail' new_id=new.id %}">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>  
+    {% endfor %}
+</div>
+
+
+        {% endblock content %}
